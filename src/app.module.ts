@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { envConfig } from './configs/env.config';
-import { PcbModule } from './modules/pci/pcb.module';
+import { PcbModule } from './modules/integrations/python-api/pcb.module';
+import { envConfig } from './shared/infrastructure/configs/env.config';
 
 @Module({
   imports: [
