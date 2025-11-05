@@ -1,6 +1,6 @@
-import Entity from '../../../@shared/domain/entity/entity.abstract';
-import { DomainError } from '../../../@shared/domain/error/domain.error';
-import ValidatorInterface from '../../../@shared/domain/validator/validator.interface';
+import Entity from '@/@shared/domain/entity/entity.abstract';
+import { DomainError } from '@/@shared/domain/error/domain.error';
+import ValidatorInterface from '@/@shared/domain/validator/validator.interface';
 import { SupplierValidatorFactory } from '../factory/supplier.validator.factory';
 
 export type SupplierProps = {

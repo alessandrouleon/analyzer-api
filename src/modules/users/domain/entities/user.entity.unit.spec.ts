@@ -1,0 +1,99 @@
+import { DomainError } from "@/@shared/domain/error/domain.error";
+import { UserEntity, UserProps } from "./user.entity";
+
+
+describe("UserEntity", () => {
+  const validProps: UserProps = {
+    name: "Joao DoeA",
+    username: "joaoname",
+    email: "joao@example.com",
+    password: "Admin@123",
+    role: "admin",
+  };
+
+
+
+  it("should create a user with valid props", () => {
+    const user = new UserEntity("1", validProps);
+
+    expect(user.id).toBe("1");
+    expect(user.name).toBe(validProps.name);
+    expect(user.username).toBe(validProps.username);
+    expect(user.email).toBe(validProps.email);
+    expect(user.password).toBe(validProps.password);
+    expect(user.role).toBe(validProps.role);
+    expect(user.createdAt).toBeInstanceOf(Date);
+    expect(user.updatedAt).toBeInstanceOf(Date);
+  });
+
+  /**
+   * Verifica se o setter `name` funciona corretamente ao alterar o nome do usuário.
+   */
+  it("should update the name with setter", () => {
+    const user = new UserEntity("1", validProps);
+    user.name = "Jane Doe"; // usa o setter
+    expect(user.name).toBe("Jane Doe");
+  });
+
+  /**
+   * Espera que, ao tentar definir o nome como vazio,
+   * a entidade lance um `DomainError`, pois o campo é obrigatório.
+   */
+  it("should throw error when setting empty name", () => {
+    const user = new UserEntity("1", validProps);
+    expect(() => (user.name = "")).toThrow(DomainError);
+  });
+
+  /**
+   * ✅ Caso de teste 4: Atualização de outros campos
+   *
+   * Testa se os setters de `username`, `email`, `password` e `role`
+   * funcionam corretamente quando recebem valores válidos.
+   */
+  it("should update username, email, password, role with setters", () => {
+    const user = new UserEntity("1", validProps);
+
+    user.username = "janedoe";
+    user.email = "jane@example.com";
+    user.password = "Admin@123";
+    user.role = "user";
+
+    expect(user.username).toBe("janedoe");
+    expect(user.email).toBe("jane@example.com");
+    expect(user.password).toBe("Admin@123");
+    expect(user.role).toBe("user");
+  });
+
+  /**
+   * Garante que todos os campos sensíveis (`username`, `email`, `password`, `role`)
+   * não possam ser definidos como vazios. Cada setter deve lançar um `DomainError`.
+   */
+  it("should throw error when setting empty values for other fields", () => {
+    const user = new UserEntity("1", validProps);
+
+    expect(() => (user.username = "")).toThrow(DomainError);
+    expect(() => (user.email = "")).toThrow(DomainError);
+    expect(() => (user.password = "")).toThrow(DomainError);
+    expect(() => (user.role = "")).toThrow(DomainError);
+  });
+
+  /**
+   * Testa se o método `toJSON()` retorna a representação pública do usuário,
+   * sem incluir o campo `password` (por segurança).
+   */
+  it("should return correct JSON representation", () => {
+    const user = new UserEntity("1", validProps);
+    const json = user.toJSON();
+
+    expect(json).toEqual({
+      id: "1",
+      name: validProps.name,
+      username: validProps.username,
+      email: validProps.email,
+      role: validProps.role,
+      createdAt: expect.any(Date),
+      updatedAt: expect.any(Date),
+    });
+  });
+});
+
