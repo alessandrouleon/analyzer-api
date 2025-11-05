@@ -1,11 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import UseCaseInterface from '@/@shared/usecase/usecase.interface';
-import { InputUpdateSupplierUseCaseDto } from './update.supplier.usecase.dto';
 import { SupplierToJson } from '../../../domain/supplier.entity';
 import { SupplierRepository } from '../../../repository/suppliers/supplier.repository';
+import { InputUpdateSupplierUseCaseDto } from './update.supplier.usecase.dto';
 
 @Injectable()
-export class UpdateSupplierUseCase implements UseCaseInterface {
+export class UpdateSupplierUseCase {
   constructor(private readonly supplierRepository: SupplierRepository) {}
 
   async execute(input: InputUpdateSupplierUseCaseDto): Promise<SupplierToJson> {

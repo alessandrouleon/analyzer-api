@@ -1,13 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import UseCaseInterface from '@/@shared/usecase/usecase.interface';
+import { SupplierRepository } from '../../../repository/suppliers/supplier.repository';
 import {
   FindAllSuppliersUseCaseInputDto,
   FindAllSuppliersUseCaseOutputDto,
 } from './find-all.suppliers.usecase.dto';
-import { SupplierRepository } from '../../../repository/suppliers/supplier.repository';
 
 @Injectable()
-export class FindAllSuppliersUseCase implements UseCaseInterface {
+export class FindAllSuppliersUseCase  {
   constructor(private readonly supplierRepository: SupplierRepository) {}
 
   async execute(
