@@ -1,20 +1,22 @@
+import { ROLES } from "@/@shared/constants/user.roles";
 import { DomainError } from "@/@shared/domain/error/domain.error";
 import { UserEntity, UserProps } from "./user.entity";
 
 
 describe("UserEntity", () => {
   const validProps: UserProps = {
+    id: "1",
     name: "Joao DoeA",
     username: "joaoname",
     email: "joao@example.com",
     password: "Admin@123",
-    role: "admin",
+    role: ROLES.ADMIN,
   };
 
 
 
   it("should create a user with valid props", () => {
-    const user = new UserEntity("1", validProps);
+    const user = new UserEntity(validProps);
 
     expect(user.id).toBe("1");
     expect(user.name).toBe(validProps.name);
@@ -30,7 +32,7 @@ describe("UserEntity", () => {
    * Verifica se o setter `name` funciona corretamente ao alterar o nome do usuário.
    */
   it("should update the name with setter", () => {
-    const user = new UserEntity("1", validProps);
+    const user = new UserEntity(validProps);
     user.name = "Jane Doe"; // usa o setter
     expect(user.name).toBe("Jane Doe");
   });
@@ -40,7 +42,7 @@ describe("UserEntity", () => {
    * a entidade lance um `DomainError`, pois o campo é obrigatório.
    */
   it("should throw error when setting empty name", () => {
-    const user = new UserEntity("1", validProps);
+    const user = new UserEntity(validProps);
     expect(() => (user.name = "")).toThrow(DomainError);
   });
 
@@ -51,17 +53,17 @@ describe("UserEntity", () => {
    * funcionam corretamente quando recebem valores válidos.
    */
   it("should update username, email, password, role with setters", () => {
-    const user = new UserEntity("1", validProps);
+    const user = new UserEntity(validProps);
 
     user.username = "janedoe";
     user.email = "jane@example.com";
     user.password = "Admin@123";
-    user.role = "user";
+    user.role = ROLES.USER;
 
     expect(user.username).toBe("janedoe");
     expect(user.email).toBe("jane@example.com");
     expect(user.password).toBe("Admin@123");
-    expect(user.role).toBe("user");
+    expect(user.role).toBe(ROLES.USER);
   });
 
   /**
@@ -69,12 +71,13 @@ describe("UserEntity", () => {
    * não possam ser definidos como vazios. Cada setter deve lançar um `DomainError`.
    */
   it("should throw error when setting empty values for other fields", () => {
-    const user = new UserEntity("1", validProps);
+    const user = new UserEntity(validProps);
 
     expect(() => (user.username = "")).toThrow(DomainError);
     expect(() => (user.email = "")).toThrow(DomainError);
     expect(() => (user.password = "")).toThrow(DomainError);
-    expect(() => (user.role = "")).toThrow(DomainError);
+    expect(() => (user.role = ROLES.ADMIN)).not.toThrow();
+    expect(() => (user.role = ROLES.USER)).not.toThrow();
   });
 
   /**
@@ -82,7 +85,7 @@ describe("UserEntity", () => {
    * sem incluir o campo `password` (por segurança).
    */
   it("should return correct JSON representation", () => {
-    const user = new UserEntity("1", validProps);
+    const user = new UserEntity(validProps);
     const json = user.toJSON();
 
     expect(json).toEqual({
