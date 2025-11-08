@@ -2,8 +2,8 @@ import { FindFilterInterface, PaginationResultInterface } from "@/@shared/reposi
 import { Injectable, Logger, NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model, Types } from "mongoose";
-import { UserEntity } from "../../domain/entities/user.entity";
-import { User, UserDocument } from "../../models/user.model";
+import { UserEntity } from "../domain/entities/user.entity";
+import { User, UserDocument } from "../models/user.model";
 import { UserRepositoryInterface } from "./user.repository.interface";
 
 @Injectable()
