@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { MongooseModule } from '@nestjs/mongoose';
 import { envConfig } from './infra/configs/env.config';
+import { MongodbOptions } from './infra/database/mongo/mongodb.config';
 import { PcbModule } from './infra/integrations/python-api/pcb.module';
 import { UserModule } from './modules/users/user.module';
 
@@ -10,8 +12,16 @@ import { UserModule } from './modules/users/user.module';
       isGlobal: true,
       load: [envConfig],
     }),
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => {
+        const mongoOptions = new MongodbOptions(configService);
+        return await mongoOptions.getOptions();
+      },
+      inject: [ConfigService],
+    }),
     PcbModule,
-    UserModule
+    UserModule,
   ],
 })
 export class AppModule { }

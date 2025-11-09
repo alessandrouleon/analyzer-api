@@ -1,5 +1,6 @@
+import { HashService } from "@/@shared/services/hash.service";
 import { IdService } from "@/@shared/services/id.service";
-import { Injectable, Logger } from "@nestjs/common";
+import { Inject, Injectable, Logger } from "@nestjs/common";
 import { UserEntity } from "../../domain/entities/user.entity";
 import { UserRepositoryInterface } from "../../repository/user.repository.interface";
 import { InputCreateUserUseCaseDto, OutputCreateUserUseCaseDto } from "./create.user.usecase.dto";
@@ -8,8 +9,10 @@ import { InputCreateUserUseCaseDto, OutputCreateUserUseCaseDto } from "./create.
 @Injectable()
 export class CreateUserUseCase {
    constructor(
+      @Inject('UserRepositoryInterface')
       private readonly userRepository: UserRepositoryInterface,
-      private readonly idService: IdService
+      private readonly idService: IdService,
+      private readonly hashService: HashService
    ) { }
 
    async execute(input: InputCreateUserUseCaseDto): Promise<OutputCreateUserUseCaseDto> {
@@ -23,6 +26,7 @@ export class CreateUserUseCase {
          role: input.role
       });
 
+      user.password = await this.hashService.hash(user.password);
       const userCreated = await this.userRepository.create(user);
 
       Logger.log(

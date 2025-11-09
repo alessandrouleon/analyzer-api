@@ -1,4 +1,5 @@
 import { ROLES } from '@/@shared/constants/user.roles';
+import { HashService } from '@/@shared/services/hash.service';
 import { IdService } from '@/@shared/services/id.service';
 import { UserEntity } from '../../domain/entities/user.entity';
 import { UserRepositoryInterface } from '../../repository/user.repository.interface';
@@ -8,6 +9,8 @@ describe('CreateUserUseCase', () => {
     let createUserUseCase: CreateUserUseCase;
     let userRepositoryMock: jest.Mocked<UserRepositoryInterface>;
     let idServiceMock: jest.Mocked<IdService>;
+    let hashServiceMock: jest.Mocked<HashService>;
+
 
     beforeEach(() => {
         userRepositoryMock = {
@@ -18,7 +21,12 @@ describe('CreateUserUseCase', () => {
             generate: jest.fn(),
         } as any;
 
-        createUserUseCase = new CreateUserUseCase(userRepositoryMock, idServiceMock);
+        hashServiceMock = {
+            hash: jest.fn().mockResolvedValue('hashed_password'),
+            compare: jest.fn(),
+        } as any;
+
+        createUserUseCase = new CreateUserUseCase(userRepositoryMock, idServiceMock, hashServiceMock);
     });
 
     it('should create a new user successfully', async () => {
@@ -32,14 +40,19 @@ describe('CreateUserUseCase', () => {
 
 
         const generatedId = 'abc123';
+        const hashedPassword = '$2b$10$peOKBntHgbpGLOatpVYUkO76rENaUcEqKG51vYjdssLap6A70M3FS';
+
+
+        idServiceMock.generate.mockReturnValue('123456');
         idServiceMock.generate.mockReturnValue(generatedId);
+        hashServiceMock.hash.mockResolvedValue(hashedPassword);
 
         const createdUserEntity = new UserEntity({
             id: generatedId,
             name: input.name,
             username: input.username,
             email: input.email,
-            password: input.password,
+            password: hashedPassword,
             role: input.role,
         });
 
@@ -58,6 +71,7 @@ describe('CreateUserUseCase', () => {
 
         const result = await createUserUseCase.execute(input);
 
+        expect(hashServiceMock.hash).toHaveBeenCalledWith("Abc@1234");
         expect(idServiceMock.generate).toHaveBeenCalledTimes(1);
         expect(userRepositoryMock.create).toHaveBeenCalledTimes(1);
         expect(userRepositoryMock.create).toHaveBeenCalledWith(expect.any(UserEntity));
@@ -74,6 +88,7 @@ describe('CreateUserUseCase', () => {
         };
 
         idServiceMock.generate.mockReturnValue('xyz789');
+        hashServiceMock.hash.mockResolvedValue('$2b$10$peOKBntHgbpGLOatpVYUkO76rENaUcEqKG51vYjdssLap6A70M3FS');
         userRepositoryMock.create.mockRejectedValue(new Error('Database error'));
 
         await expect(createUserUseCase.execute(input)).rejects.toThrow('Database error');

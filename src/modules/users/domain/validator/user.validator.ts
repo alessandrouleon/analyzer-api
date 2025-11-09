@@ -65,12 +65,14 @@ export class UserValidator implements ValidatorInterface<UserEntity> {
 
       password: Joi.string()
         .trim()
-        .min(2)
+        .min(8)
+        .max(80)
         .pattern(PASSWORD_REGEX)
         .required()
         .messages({
           'any.required': 'Password is required',
-          'string.min': 'Password must be at least 2 characters',
+          'string.min': 'Password must be at least 8 characters',
+          'string.max': 'Password must be at most 80 characters',
           'string.base': 'Password must be a string',
           'string.pattern.base': PASSWORD_INVALID_MESSAGE,
         }),
