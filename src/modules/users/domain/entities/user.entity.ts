@@ -1,6 +1,7 @@
 
 import { ROLES } from "@/@shared/constants/user.roles";
 import Entity from "@/@shared/domain/entity/entity.abstract";
+import { DomainError } from "@/@shared/domain/error/domain.error";
 import ValidatorInterface from "@/@shared/domain/validator/validator.interface";
 import { UserValidatorFactory } from "../../factory/user.validator.factory";
 
@@ -68,23 +69,54 @@ export class UserEntity extends Entity<UserEntity> {
   }
 
   set name(value: string) {
+    if (!value || value.trim().length === 0) {
+      throw new DomainError([
+        { context: 'user', message: 'Name cannot be empty' },
+      ]);
+    }
+
     this._name = value.trim();
     this.validate();
   }
   set username(value: string) {
+    if (!value || value.trim().length === 0) {
+      throw new DomainError([
+        { context: 'user', message: 'Username cannot be empty' },
+      ]);
+    }
     this._username = value.trim();
     this.validate();
   }
   set email(value: string) {
+    if (!value || value.trim().length === 0) {
+      throw new DomainError([
+        { context: 'user', message: 'Email cannot be empty' },
+      ]);
+    }
     this._email = value.trim();
     this.validate();
   }
   set password(value: string) {
+    if (!value || value.trim().length === 0) {
+      throw new DomainError([
+        { context: 'user', message: 'Password cannot be empty' },
+      ]);
+    }
     this._password = value.trim();
     this.validate();
   }
   set role(value: ROLES) {
+    if (!value || value.trim().length === 0) {
+      throw new DomainError([
+        { context: 'user', message: 'Role cannot be empty' },
+      ]);
+    }
     const trimmed = value.trim().toUpperCase();
+
+    if (!Object.values(ROLES).includes(trimmed as ROLES)) {
+      throw new DomainError([{ context: 'user', message: `Invalid role: ${value}` }]);
+    }
+
     this._role = trimmed as ROLES;
     this.validate();
   }
