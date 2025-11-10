@@ -8,25 +8,30 @@ import { User, UserSchema } from "./models/user.model";
 import { UserRepository } from "./repository/user.repository";
 import { CreateUserUseCase } from "./usecases/create/create.user.usecase";
 import { FindByIdUserUseCase } from "./usecases/findById/findById.user.usecase";
+import { UpdateUserUseCase } from "./usecases/update/update.user.usecase";
 
 @Module({
     imports: [MongooseModule.forFeature([{ name: User.name, schema: UserSchema }])],
     controllers: [UserController],
     providers: [
-        UserRepository,
         //Facade
         UserFacade,
+
         //Services
         IdService,
         HashService,
+
+
         //Repositories
         {
             provide: 'UserRepositoryInterface',
             useClass: UserRepository,
         },
+
         //UseCases
         CreateUserUseCase,
-        FindByIdUserUseCase
+        UpdateUserUseCase,
+        FindByIdUserUseCase,
     ],
     exports: []
 })

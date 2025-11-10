@@ -7,10 +7,10 @@ export class FindByIdUserUseCase {
 
     constructor(
         @Inject('UserRepositoryInterface')
-        private readonly useRepository: UserRepositoryInterface
+        private readonly usesRepository: UserRepositoryInterface
     ) { }
     async execute(id: string): Promise<OutputFindByIdUserUseCaseDto> {
-        const user = await this.useRepository.findOneById(id);
+        const user = await this.usesRepository.findOneById(id);
 
         if (!user) {
             throw new BadRequestException(`User with ID ${id} not found`);

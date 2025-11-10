@@ -1,6 +1,6 @@
 import { ROLES } from "@/@shared/constants/user.roles";
 
-export class InputCreateUserUseCaseDto {
+export class InputUpdateUserUseCaseDto {
     id: string;
     name: string;
     username: string;
@@ -9,7 +9,7 @@ export class InputCreateUserUseCaseDto {
     role: ROLES;
 }
 
-export class OutputCreateUserUseCaseDto {
+export class OutputUpdateUserUseCaseDto {
     id: string;
     name: string;
     username: string;
