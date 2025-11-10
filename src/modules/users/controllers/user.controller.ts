@@ -11,7 +11,7 @@ export class UserController {
         try {
             return await this.userFacade.create(input);
         } catch (error) {
-            throw new Error(error.message);
+            throw error
         }
     }
 }
