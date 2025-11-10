@@ -7,6 +7,7 @@ import { UserFacade } from "./facade/user.facade";
 import { User, UserSchema } from "./models/user.model";
 import { UserRepository } from "./repository/user.repository";
 import { CreateUserUseCase } from "./usecases/create/create.user.usecase";
+import { FindByIdUserUseCase } from "./usecases/findById/findById.user.usecase";
 
 @Module({
     imports: [MongooseModule.forFeature([{ name: User.name, schema: UserSchema }])],
@@ -24,7 +25,8 @@ import { CreateUserUseCase } from "./usecases/create/create.user.usecase";
             useClass: UserRepository,
         },
         //UseCases
-        CreateUserUseCase
+        CreateUserUseCase,
+        FindByIdUserUseCase
     ],
     exports: []
 })
