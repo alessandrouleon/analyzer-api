@@ -12,7 +12,6 @@ export class DomainExceptionFilter implements ExceptionFilter {
             statusCode: HttpStatus.BAD_REQUEST,
             message: 'Validation failed',
             errors: exception.errors,
-            timestamp: new Date().toISOString(),
         });
     }
 }

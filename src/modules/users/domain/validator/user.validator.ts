@@ -40,25 +40,31 @@ export class UserValidator implements ValidatorInterface<UserEntity> {
 
   getSchema(): Joi.ObjectSchema {
     return Joi.object({
-
       id: Joi.string().required().messages({
         'any.required': 'Id is required',
         'string.base': 'Id must be a string',
+        'string.empty': 'Id cannot be empty',
       }),
-      name: Joi.string().trim().min(2).required().messages({
+
+      name: Joi.string().trim().min(2).max(100).required().messages({
         'any.required': 'Name is required',
+        'string.empty': 'Name cannot be empty',
         'string.min': 'Name must be at least 2 characters',
+        'string.max': 'Name cannot exceed 100 characters',
         'string.base': 'Name must be a string',
       }),
 
-      username: Joi.string().trim().min(2).required().messages({
+      username: Joi.string().trim().min(2).max(50).required().messages({
         'any.required': 'Username is required',
+        'string.empty': 'Username cannot be empty',
         'string.min': 'Username must be at least 2 characters',
+        'string.max': 'Username cannot exceed 50 characters',
         'string.base': 'Username must be a string',
       }),
 
-      email: Joi.string().trim().email().optional().messages({
+      email: Joi.string().trim().email().required().messages({
         'any.required': 'Email is required',
+        'string.empty': 'Email cannot be empty',
         'string.email': 'Email must be a valid address',
         'string.base': 'Email must be a string',
       }),
@@ -71,16 +77,17 @@ export class UserValidator implements ValidatorInterface<UserEntity> {
         .required()
         .messages({
           'any.required': 'Password is required',
+          'string.empty': 'Password cannot be empty',
           'string.min': 'Password must be at least 8 characters',
           'string.max': 'Password must be at most 80 characters',
           'string.base': 'Password must be a string',
           'string.pattern.base': PASSWORD_INVALID_MESSAGE,
         }),
 
-
       role: Joi.string().valid(ROLES.ADMIN, ROLES.USER).required().messages({
         'any.required': 'Role is required',
-        'any.only': 'Role must be either admin or user',
+        'string.empty': 'Role cannot be empty',
+        'any.only': 'Role must be ADMIN or USER',
       }),
 
       createdAt: Joi.date().required().messages({

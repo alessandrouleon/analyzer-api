@@ -1,6 +1,6 @@
 import { HashService } from "@/@shared/services/hash.service";
 import { IdService } from "@/@shared/services/id.service";
-import { Inject, Injectable, Logger } from "@nestjs/common";
+import { BadRequestException, Inject, Injectable, Logger } from "@nestjs/common";
 import { UserEntity } from "../../domain/entities/user.entity";
 import { UserRepositoryInterface } from "../../repository/user.repository.interface";
 import { InputCreateUserUseCaseDto, OutputCreateUserUseCaseDto } from "./create.user.usecase.dto";
@@ -16,6 +16,24 @@ export class CreateUserUseCase {
    ) { }
 
    async execute(input: InputCreateUserUseCaseDto): Promise<OutputCreateUserUseCaseDto> {
+
+      const [username, email] = await Promise.all([
+         this.userRepository.findByUsername(input.username),
+         this.userRepository.findByEmail(input.email)
+
+      ]);
+
+      if (username) {
+         if (username.username === input.username) {
+            throw new BadRequestException('User already registered with this username');
+         }
+      }
+
+      if (email) {
+         if (email.email === input.email) {
+            throw new BadRequestException('User already registered with this email');
+         }
+      }
 
       const user = new UserEntity({
          id: this.idService.generate(),

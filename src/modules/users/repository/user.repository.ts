@@ -96,6 +96,18 @@ export class UserRepository implements UserRepositoryInterface {
     return this.modelToEntity(user);
   }
 
+  async findByUsername(username: string): Promise<UserEntity | null> {
+    const user = await this.userModel.findOne({ username }).exec();
+    if (!user) return null;
+    return this.modelToEntity(user);
+  }
+
+  async findByEmail(email: string): Promise<UserEntity | null> {
+    const user = await this.userModel.findOne({ email }).exec();
+    if (!user) return null;
+    return this.modelToEntity(user);
+  }
+
   async find(query: FindFilterInterface): Promise<PaginationResultInterface<UserEntity>> {
     const {
       filter = {},
