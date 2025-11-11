@@ -7,6 +7,7 @@ import { UserFacade } from "./facade/user.facade";
 import { User, UserSchema } from "./models/user.model";
 import { UserRepository } from "./repository/user.repository";
 import { CreateUserUseCase } from "./usecases/create/create.user.usecase";
+import { DeleteUserUseCase } from "./usecases/delete/delete.user.usecase";
 import { FindByIdUserUseCase } from "./usecases/findById/findById.user.usecase";
 import { UpdateUserUseCase } from "./usecases/update/update.user.usecase";
 
@@ -32,6 +33,7 @@ import { UpdateUserUseCase } from "./usecases/update/update.user.usecase";
         CreateUserUseCase,
         UpdateUserUseCase,
         FindByIdUserUseCase,
+        DeleteUserUseCase
     ],
     exports: []
 })

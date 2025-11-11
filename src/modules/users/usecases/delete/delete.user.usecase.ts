@@ -1,27 +1,27 @@
 import { BadRequestException, Inject, Injectable, Logger } from "@nestjs/common";
 import { UserRepositoryInterface } from "../../repository/user.repository.interface";
-import { OutputFindByIdUserUseCaseDto } from "./findById.user.usecase.dto";
 
 @Injectable()
-export class FindByIdUserUseCase {
-
+export class DeleteUserUseCase {
     constructor(
         @Inject('UserRepositoryInterface')
         private readonly userRepository: UserRepositoryInterface
     ) { }
-    async execute(id: string): Promise<OutputFindByIdUserUseCaseDto> {
-        const user = await this.userRepository.findOneById(id);
 
-        if (!user) {
+    async execute(id: string): Promise<void> {
+
+        const existsUser = await this.userRepository.findOneById(id);
+
+        if (!existsUser) {
             throw new BadRequestException(`User with ID ${id} not found`);
         }
 
+        const deleteUser = await this.userRepository.delete(id);
+
         Logger.log(
-            `User found. [ID: ${user.id}][name: ${user.name}]`,
-            'FindByIdUserUseCase.execute',
+            `User deleted. [ID: ${deleteUser.id}][name: ${deleteUser.name}]`,
+            'DeleteUserUseCase.execute',
         );
 
-        return user?.toJSON();
     }
-
 }

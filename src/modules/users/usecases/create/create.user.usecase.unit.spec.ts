@@ -33,6 +33,7 @@ describe('CreateUserUseCase', () => {
 
     it('should create a new user successfully', async () => {
         const input = {
+            id: "123",
             name: 'John Doe',
             username: 'johndoe',
             email: 'john@example.com',
@@ -85,6 +86,7 @@ describe('CreateUserUseCase', () => {
 
     it('should throw BadRequestException if username already exists', async () => {
         const input = {
+            id: "123",
             name: 'John Doe',
             username: 'johndoe',
             email: 'john@example.com',
@@ -107,6 +109,7 @@ describe('CreateUserUseCase', () => {
 
     it('should throw BadRequestException if email already exists', async () => {
         const input = {
+            id: "123",
             name: 'John Doe',
             username: 'johndoe',
             email: 'john@example.com',
@@ -129,6 +132,7 @@ describe('CreateUserUseCase', () => {
 
     it('should throw if repository.create fails', async () => {
         const input = {
+            id: "123",
             name: 'Jane Doe',
             username: 'janedoe',
             email: 'jane@example.com',
