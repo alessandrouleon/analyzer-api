@@ -1,6 +1,7 @@
-import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
+import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Put, Query } from "@nestjs/common";
 import { UserFacade } from "../facade/user.facade";
 import { InputCreateUserUseCaseDto, OutputCreateUserUseCaseDto } from "../usecases/create/create.user.usecase.dto";
+import { InputFindUserUseCaseDto } from "../usecases/findAll/find-all.user.usecase.dto";
 import { InputUpdateUserUseCaseDto, OutputUpdateUserUseCaseDto } from "../usecases/update/update.user.usecase.dto";
 
 @Controller('users')
@@ -43,6 +44,26 @@ export class UserController {
             throw e;
         }
     }
+
+    @Get()
+    async find(@Query() query: InputFindUserUseCaseDto) {
+        const filter: any = {};
+        for (const key in query) {
+            if (key.startsWith('filter[')) {
+                const field = key.replace(/^filter\[(.+)\]$/, '$1');
+                filter[field] = query[key];
+            }
+        }
+
+        const userQuery = {
+            ...query,
+            filter,
+        };
+
+        return await this.userFacade.find(userQuery);
+    }
+
+
     @Delete(':id')
     async delete(@Param('id') id: string): Promise<void> {
         try {

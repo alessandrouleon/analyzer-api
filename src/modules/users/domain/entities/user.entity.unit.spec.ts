@@ -1,10 +1,10 @@
 import { ROLES } from "@/@shared/constants/user.roles";
 import { DomainError } from "@/@shared/domain/error/domain.error";
-import { UserEntity, UserProps } from "./user.entity";
+import { UserEntity, UserIterfaces } from "./user.entity";
 
 
 describe("UserEntity", () => {
-  const validProps: UserProps = {
+  const validProps: UserIterfaces = {
     id: "1",
     name: "Joao DoeA",
     username: "joaoname",

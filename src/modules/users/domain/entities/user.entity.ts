@@ -7,7 +7,7 @@ import { UserValidatorFactory } from "../../factory/user.validator.factory";
 
 
 
-export type UserProps = {
+export type UserIterfaces = {
   id?: string;
   name: string;
   username: string;
@@ -38,7 +38,7 @@ export class UserEntity extends Entity<UserEntity> {
   validator: ValidatorInterface<UserEntity>;
 
   constructor(
-    private readonly props: UserProps
+    private readonly props: UserIterfaces
   ) {
     super(props.id, UserValidatorFactory.create(), props.createdAt, props.updatedAt);
 
