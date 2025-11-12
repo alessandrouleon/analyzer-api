@@ -5,7 +5,7 @@ export interface FindFilterInterface<TFilter = any> {
   orderby?: string;
   limit?: number;
   skip?: number;
-  fields?: string[];
+  page?: number;
 }
 
 export interface PaginationInterface {

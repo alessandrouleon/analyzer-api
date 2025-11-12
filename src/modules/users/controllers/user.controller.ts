@@ -48,19 +48,14 @@ export class UserController {
     @Get()
     async find(@Query() query: InputFindUserUseCaseDto) {
         const filter: any = {};
+
         for (const key in query) {
-            if (key.startsWith('filter[')) {
-                const field = key.replace(/^filter\[(.+)\]$/, '$1');
+            if (key.startsWith('filter[') && key.endsWith(']')) {
+                const field = key.slice(7, -1);
                 filter[field] = query[key];
             }
         }
-
-        const userQuery = {
-            ...query,
-            filter,
-        };
-
-        return await this.userFacade.find(userQuery);
+        return this.userFacade.find({ ...query, filter });
     }
 
 

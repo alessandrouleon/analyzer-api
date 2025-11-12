@@ -114,8 +114,8 @@ export class UserRepository implements UserRepositoryInterface {
       order = "desc",
       orderby = "createdAt",
       limit = 25,
-      skip = 0,
-      fields = [],
+      page = 1,
+      skip = (page - 1) * limit,
     } = query;
 
     const queryBuild = {};
@@ -148,7 +148,7 @@ export class UserRepository implements UserRepositoryInterface {
     if ($or.length > 0) {
       queryBuild['$or'] = $or;
     }
-    const page = Math.floor(skip / limit) + 1;
+
     const total = await this.userModel.countDocuments(queryBuild).exec();
     const totalPages = Math.ceil(total / limit);
 
@@ -164,7 +164,7 @@ export class UserRepository implements UserRepositoryInterface {
     return {
       result: users.map((user) => this.modelToEntity(user)),
       pagination: {
-        page,
+        page: Number(page),
         totalPages,
         size: limit,
         total,
