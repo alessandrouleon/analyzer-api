@@ -1,6 +1,6 @@
-import { ROLES } from '@/@shared/constants/user.roles';
-import { PaginationInterface } from '../../../../@shared/repository/repository.interface';
-import { UserIterfaces } from '../../domain/entities/user.entity';
+import { UserIterfaces } from '@/modules/users/domain/entities/user.entity';
+import { ROLES } from '@/shared/constants/user.roles';
+import { PaginationInterface } from '@/shared/repository/repository.interface';
 
 export class InputFindUserUseCaseDto {
     name: string;

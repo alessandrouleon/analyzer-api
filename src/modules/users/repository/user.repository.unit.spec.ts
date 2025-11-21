@@ -1,8 +1,8 @@
-import { ROLES } from '@/@shared/constants/user.roles';
+import { UserEntity } from '@/modules/users/domain/entities/user.entity';
+import { UserRepository } from '@/modules/users/repository/user.repository';
+import { ROLES } from '@/shared/constants/user.roles';
 import { Logger, NotFoundException } from '@nestjs/common';
 import { Model, Types } from 'mongoose';
-import { UserEntity } from '../domain/entities/user.entity';
-import { UserRepository } from './user.repository';
 
 // Mock da classe Model como função construtora
 class MockUserModel {

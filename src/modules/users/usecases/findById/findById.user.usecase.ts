@@ -1,5 +1,5 @@
+import { UserRepositoryInterface } from "@/modules/users/repository/user.repository.interface";
 import { BadRequestException, Inject, Injectable, Logger } from "@nestjs/common";
-import { UserRepositoryInterface } from "../../repository/user.repository.interface";
 import { OutputFindByIdUserUseCaseDto } from "./findById.user.usecase.dto";
 
 @Injectable()

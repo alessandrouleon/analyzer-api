@@ -1,8 +1,8 @@
+import { UserFacade } from "@/modules/users/facade/user.facade";
+import { InputCreateUserUseCaseDto, OutputCreateUserUseCaseDto } from "@/modules/users/usecases/create/create.user.usecase.dto";
+import { InputFindUserUseCaseDto } from "@/modules/users/usecases/findAll/find-all.user.usecase.dto";
+import { InputUpdateUserUseCaseDto, OutputUpdateUserUseCaseDto } from "@/modules/users/usecases/update/update.user.usecase.dto";
 import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Put, Query } from "@nestjs/common";
-import { UserFacade } from "../facade/user.facade";
-import { InputCreateUserUseCaseDto, OutputCreateUserUseCaseDto } from "../usecases/create/create.user.usecase.dto";
-import { InputFindUserUseCaseDto } from "../usecases/findAll/find-all.user.usecase.dto";
-import { InputUpdateUserUseCaseDto, OutputUpdateUserUseCaseDto } from "../usecases/update/update.user.usecase.dto";
 
 @Controller('users')
 export class UserController {

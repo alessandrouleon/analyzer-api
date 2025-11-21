@@ -1,7 +1,9 @@
-import { HashService } from "@/@shared/services/hash.service";
-import { IdService } from "@/@shared/services/id.service";
+import { HashService } from "@/shared/services/hash.service";
+import { IdService } from "@/shared/services/id.service";
 import { Module } from "@nestjs/common";
+import { APP_GUARD } from "@nestjs/core";
 import { MongooseModule } from "@nestjs/mongoose";
+import { AuthGuard } from "../auth/guard/auth.guard";
 import { UserController } from "./controllers/user.controller";
 import { UserFacade } from "./facade/user.facade";
 import { User, UserSchema } from "./models/user.model";
@@ -10,12 +12,17 @@ import { CreateUserUseCase } from "./usecases/create/create.user.usecase";
 import { DeleteUserUseCase } from "./usecases/delete/delete.user.usecase";
 import { FindAllUserUseCase } from "./usecases/findAll/find-all.user.usecase";
 import { FindByIdUserUseCase } from "./usecases/findById/findById.user.usecase";
+import { LoginUserUseCase } from "./usecases/login/login-use.use-case";
 import { UpdateUserUseCase } from "./usecases/update/update.user.usecase";
 
 @Module({
     imports: [MongooseModule.forFeature([{ name: User.name, schema: UserSchema }])],
     controllers: [UserController],
     providers: [
+        {
+            provide: APP_GUARD,
+            useClass: AuthGuard,
+        },
         //Facade
         UserFacade,
 
@@ -35,9 +42,10 @@ import { UpdateUserUseCase } from "./usecases/update/update.user.usecase";
         UpdateUserUseCase,
         FindByIdUserUseCase,
         FindAllUserUseCase,
-        DeleteUserUseCase
+        DeleteUserUseCase,
+        LoginUserUseCase
     ],
-    exports: []
+    exports: [LoginUserUseCase]
 })
 
 export class UserModule { }

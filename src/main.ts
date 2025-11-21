@@ -1,7 +1,7 @@
+import { DomainExceptionFilter } from '@/shared/domain/exception/exception.filter';
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import * as dotenv from 'dotenv';
-import { DomainExceptionFilter } from './@shared/domain/exception/exception.filter';
 import { AppModule } from './app.module';
 
 dotenv.config();

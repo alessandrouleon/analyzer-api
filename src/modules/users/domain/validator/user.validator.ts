@@ -1,9 +1,9 @@
-import { ROLES } from "@/@shared/constants/user.roles";
-import { DomainError, DomainErrorProps } from "@/@shared/domain/error/domain.error";
-import ValidatorInterface from "@/@shared/domain/validator/validator.interface";
+import { UserEntity } from "@/modules/users/domain/entities/user.entity";
+import { PASSWORD_INVALID_MESSAGE, PASSWORD_REGEX } from "@/modules/users/domain/value-objects/password.vo";
+import { ROLES } from "@/shared/constants/user.roles";
+import { DomainError, DomainErrorProps } from "@/shared/domain/error/domain.error";
+import ValidatorInterface from "@/shared/domain/validator/validator.interface";
 import Joi from "joi";
-import { UserEntity } from "../entities/user.entity";
-import { PASSWORD_INVALID_MESSAGE, PASSWORD_REGEX } from "../value-objects/password.vo";
 
 
 export class UserValidator implements ValidatorInterface<UserEntity> {

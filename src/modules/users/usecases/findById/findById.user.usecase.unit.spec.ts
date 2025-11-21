@@ -1,7 +1,7 @@
-import { ROLES } from '@/@shared/constants/user.roles';
+import { UserEntity } from '@/modules/users/domain/entities/user.entity';
+import { UserRepositoryInterface } from '@/modules/users/repository/user.repository.interface';
+import { ROLES } from '@/shared/constants/user.roles';
 import { BadRequestException, Logger } from '@nestjs/common';
-import { UserEntity } from '../../domain/entities/user.entity';
-import { UserRepositoryInterface } from '../../repository/user.repository.interface';
 import { FindByIdUserUseCase } from './findById.user.usecase';
 import { OutputFindByIdUserUseCaseDto } from './findById.user.usecase.dto';
 

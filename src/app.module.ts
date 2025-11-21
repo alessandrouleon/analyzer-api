@@ -3,7 +3,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { envConfig } from './infra/configs/env.config';
 import { MongodbOptions } from './infra/database/mongo/mongodb.config';
-import { PcbModule } from './infra/integrations/python-api/pcb.module';
+
+import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/users/user.module';
 
 @Module({
@@ -20,8 +21,8 @@ import { UserModule } from './modules/users/user.module';
       },
       inject: [ConfigService],
     }),
-    PcbModule,
     UserModule,
+    AuthModule
   ],
 })
 export class AppModule { }

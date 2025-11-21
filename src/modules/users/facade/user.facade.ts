@@ -1,14 +1,14 @@
-import { FindFilterInterface } from "@/@shared/repository/repository.interface";
+import { UserIterfaces } from "@/modules/users/domain/entities/user.entity";
+import { CreateUserUseCase } from "@/modules/users/usecases/create/create.user.usecase";
+import { InputCreateUserUseCaseDto, OutputCreateUserUseCaseDto } from "@/modules/users/usecases/create/create.user.usecase.dto";
+import { DeleteUserUseCase } from "@/modules/users/usecases/delete/delete.user.usecase";
+import { FindAllUserUseCase } from "@/modules/users/usecases/findAll/find-all.user.usecase";
+import { FindByIdUserUseCase } from "@/modules/users/usecases/findById/findById.user.usecase";
+import { OutputFindByIdUserUseCaseDto } from "@/modules/users/usecases/findById/findById.user.usecase.dto";
+import { UpdateUserUseCase } from "@/modules/users/usecases/update/update.user.usecase";
+import { InputUpdateUserUseCaseDto, OutputUpdateUserUseCaseDto } from "@/modules/users/usecases/update/update.user.usecase.dto";
+import { FindFilterInterface } from "@/shared/repository/repository.interface";
 import { Injectable } from "@nestjs/common";
-import { UserIterfaces } from "../domain/entities/user.entity";
-import { CreateUserUseCase } from "../usecases/create/create.user.usecase";
-import { InputCreateUserUseCaseDto, OutputCreateUserUseCaseDto } from "../usecases/create/create.user.usecase.dto";
-import { DeleteUserUseCase } from "../usecases/delete/delete.user.usecase";
-import { FindAllUserUseCase } from "../usecases/findAll/find-all.user.usecase";
-import { FindByIdUserUseCase } from "../usecases/findById/findById.user.usecase";
-import { OutputFindByIdUserUseCaseDto } from "../usecases/findById/findById.user.usecase.dto";
-import { UpdateUserUseCase } from "../usecases/update/update.user.usecase";
-import { InputUpdateUserUseCaseDto, OutputUpdateUserUseCaseDto } from "../usecases/update/update.user.usecase.dto";
 
 @Injectable()
 export class UserFacade {

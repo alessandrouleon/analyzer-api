@@ -1,7 +1,7 @@
-import { ROLES } from '@/@shared/constants/user.roles';
+import { ROLES } from '@/shared/constants/user.roles';
+import { BaseSchema } from '@/shared/repository/base-model';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { BaseSchema } from '../../../@shared/repository/base-model';
 
 export type UserDocument = User & Document;
 

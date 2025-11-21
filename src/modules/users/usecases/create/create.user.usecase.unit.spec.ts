@@ -1,10 +1,10 @@
-import { ROLES } from '@/@shared/constants/user.roles';
-import { HashService } from '@/@shared/services/hash.service';
-import { IdService } from '@/@shared/services/id.service';
+import { UserEntity } from '@/modules/users/domain/entities/user.entity';
+import { UserRepositoryInterface } from '@/modules/users/repository/user.repository.interface';
+import { CreateUserUseCase } from '@/modules/users/usecases/create/create.user.usecase';
+import { ROLES } from '@/shared/constants/user.roles';
+import { HashService } from '@/shared/services/hash.service';
+import { IdService } from '@/shared/services/id.service';
 import { BadRequestException } from '@nestjs/common';
-import { UserEntity } from '../../domain/entities/user.entity';
-import { UserRepositoryInterface } from '../../repository/user.repository.interface';
-import { CreateUserUseCase } from './create.user.usecase';
 
 describe('CreateUserUseCase', () => {
     let createUserUseCase: CreateUserUseCase;
