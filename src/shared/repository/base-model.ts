@@ -17,12 +17,9 @@ export class BaseSchema {
   @Prop({ type: Date, default: Date.now })
   createdAt: Date;
 
-  @Prop({ type: Date, default: Date.now })
-  updatedAt: Date;
+  @Prop({ type: Date, default: null })
+  updatedAt?: Date;
 
-  @Prop({ type: Object, required: false })
-  modifiedBy?: ModifiedBy;
-
-  @Prop({ type: String, required: false })
-  reason?: string;
+  @Prop({ type: String, default: null })
+  deletedAt?: string;
 }

@@ -16,6 +16,7 @@ export type UserIterfaces = {
   role: ROLES;
   createdAt?: Date;
   updatedAt?: Date;
+  deletedAt?: Date;
 }
 
 export type UserToJSON = {
@@ -27,6 +28,7 @@ export type UserToJSON = {
   password?: string;
   createdAt: Date;
   updatedAt: Date;
+  deletedAt: Date;
 }
 export class UserEntity extends Entity<UserEntity> {
   private _name: string;
@@ -40,7 +42,7 @@ export class UserEntity extends Entity<UserEntity> {
   constructor(
     private readonly props: UserIterfaces
   ) {
-    super(props.id, UserValidatorFactory.create(), props.createdAt, props.updatedAt);
+    super(props.id, UserValidatorFactory.create(), props.createdAt, props.updatedAt, props.deletedAt);
 
     this._name = props.name;
     this._username = props.username;
@@ -130,6 +132,7 @@ export class UserEntity extends Entity<UserEntity> {
       role: this.role,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
+      deletedAt: this.deletedAt
     };
   }
 

@@ -27,9 +27,16 @@ export class UserRepository implements UserRepositoryInterface {
 
   async update(entity: UserEntity): Promise<UserEntity> {
     const objId = new Types.ObjectId(entity.id);
-
+    console.log(await this.userModel.findById(objId));
     const originalDoc = await this.userModel
-      .findById(objId)
+      .findOne({
+        _id: objId,
+        $or: [
+          { deletedAt: { $exists: false } },
+          { deletedAt: null },
+          { deletedAt: '' },
+        ],
+      })
       .setOptions?.({ autopopulate: false })
       .lean();
 
@@ -72,7 +79,15 @@ export class UserRepository implements UserRepositoryInterface {
     const objId = new Types.ObjectId(_id);
 
     const deleted = await this.userModel
-      .findOneAndDelete({ _id: objId }, { projection: { __v: 0 } } as any)
+      .findOneAndUpdate(
+        { _id: objId },
+        { $set: { deletedAt: new Date().toISOString() } },
+        {
+          new: true,
+          strict: true,
+          runValidators: true,
+        }
+      )
       .setOptions?.({ autopopulate: false });
 
     if (!deleted) {
@@ -83,14 +98,20 @@ export class UserRepository implements UserRepositoryInterface {
     const originalSnap = deleted.toObject();
 
     if (originalSnap?._id) {
-      originalSnap._id = String(originalSnap._id);
+      originalSnap._id = originalSnap._id;
     }
 
     return this.modelToEntity(deleted);
   }
 
   async findOneById(id: string): Promise<UserEntity> {
-    const user = await this.userModel.findOne({ _id: new Types.ObjectId(id) }).exec();
+    const user = await this.userModel.findOne({
+      _id: new Types.ObjectId(id), $or: [
+        { deletedAt: { $exists: false } },
+        { deletedAt: null },
+        { deletedAt: '' },
+      ]
+    }).exec();
     if (!user) return null;
 
     return this.modelToEntity(user);
@@ -144,6 +165,12 @@ export class UserRepository implements UserRepositoryInterface {
     } else if (filter.search) {
       $or.push({ role: { $regex: filter.search, $options: 'i' } });
     }
+
+    $or.push(
+      { deletedAt: { $exists: false } },
+      { deletedAt: null },
+      { deletedAt: '' }
+    );
 
     if ($or.length > 0) {
       queryBuild['$or'] = $or;
