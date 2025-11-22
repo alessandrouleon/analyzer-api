@@ -20,6 +20,6 @@ export class BaseSchema {
   @Prop({ type: Date, default: null })
   updatedAt?: Date;
 
-  @Prop({ type: String, default: null })
-  deletedAt?: string;
+  @Prop({ type: Date, default: null })
+  deletedAt?: Date;
 }

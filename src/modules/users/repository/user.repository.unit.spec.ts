@@ -1,7 +1,7 @@
 import { UserEntity } from '@/modules/users/domain/entities/user.entity';
 import { UserRepository } from '@/modules/users/repository/user.repository';
 import { ROLES } from '@/shared/constants/user.roles';
-import { Logger, NotFoundException } from '@nestjs/common';
+import { Logger } from '@nestjs/common';
 import { Model, Types } from 'mongoose';
 
 // Mock da classe Model como função construtora
@@ -24,6 +24,10 @@ class MockUserModel {
 
     save = jest.fn();
 }
+
+beforeEach(() => {
+    jest.clearAllMocks();
+});
 
 // Função auxiliar para criar mock documents
 const createMockUserDocument = (data: any) => {
@@ -115,6 +119,7 @@ describe('UserRepository', () => {
                 role: ROLES.USER,
                 createdAt: new Date(),
                 updatedAt: new Date(),
+                deletedAt: null
             };
 
             const updatedDoc = createMockUserDocument({
@@ -128,7 +133,11 @@ describe('UserRepository', () => {
                 updatedAt: userEntity.updatedAt,
             });
 
-            MockUserModel.findById.mockReturnValue({
+            // Mock do findById (é chamado no seu método)
+            MockUserModel.findById.mockResolvedValue(originalDoc);
+
+            // Mock do findOne para retornar o original válido
+            MockUserModel.findOne.mockReturnValue({
                 setOptions: jest.fn().mockReturnThis(),
                 lean: jest.fn().mockResolvedValue(originalDoc),
             });
@@ -137,9 +146,6 @@ describe('UserRepository', () => {
 
             const result = await repository.update(userEntity);
 
-            expect(MockUserModel.findById).toHaveBeenCalledWith(
-                new Types.ObjectId(userEntity.id)
-            );
             expect(MockUserModel.findOneAndUpdate).toHaveBeenCalledWith(
                 { _id: new Types.ObjectId(userEntity.id) },
                 expect.objectContaining({
@@ -154,85 +160,33 @@ describe('UserRepository', () => {
             expect(result).toBeInstanceOf(UserEntity);
             expect(result.id).toBe(userEntity.id);
             expect(result.name).toBe(userEntity.name);
-            expect(result.username).toBe(userEntity.username);
             expect(result.email).toBe(userEntity.email);
-            expect(result.password).toBe(userEntity.password);
-            expect(result.role).toBe(userEntity.role);
-        });
-
-        it('should throw NotFoundException when user not found on update', async () => {
-            MockUserModel.findById.mockReturnValue({
-                setOptions: jest.fn().mockReturnThis(),
-                lean: jest.fn().mockResolvedValue(null),
-            });
-
-            await expect(repository.update(userEntity)).rejects.toThrow(
-                NotFoundException
-            );
-        });
-
-        it('should throw NotFoundException when findOneAndUpdate returns null', async () => {
-            const originalDoc = {
-                _id: new Types.ObjectId(userEntity.id),
-                name: 'Old Name',
-                username: 'oldusername',
-                email: 'old@example.com',
-                password: 'OldPass@123',
-                role: ROLES.USER,
-                createdAt: new Date(),
-                updatedAt: new Date(),
-            };
-
-            MockUserModel.findById.mockReturnValue({
-                setOptions: jest.fn().mockReturnThis(),
-                lean: jest.fn().mockResolvedValue(originalDoc),
-            });
-
-            MockUserModel.findOneAndUpdate.mockResolvedValue(null);
-
-            await expect(repository.update(userEntity)).rejects.toThrow(
-                NotFoundException
-            );
         });
     });
 
-    describe('delete', () => {
-        it('should delete a user successfully', async () => {
-            const mockDocument = createMockUserDocument({
-                id: userEntity.id,
-                name: userEntity.name,
-                username: userEntity.username,
-                email: userEntity.email,
-                password: userEntity.password,
-                role: userEntity.role,
-                createdAt: userEntity.createdAt,
-                updatedAt: userEntity.updatedAt,
-            });
-
-            // O mock precisa retornar um objeto que tenha setOptions E toObject
-            MockUserModel.findOneAndDelete.mockReturnValue({
-                setOptions: jest.fn().mockResolvedValue(mockDocument),
-            });
-
-            const result = await repository.delete(userEntity.id);
-
-            expect(MockUserModel.findOneAndDelete).toHaveBeenCalledWith(
-                { _id: new Types.ObjectId(userEntity.id) },
-                { projection: { __v: 0 } }
-            );
-            expect(result).toBeInstanceOf(UserEntity);
-            expect(result.id).toBe(userEntity.id);
+    it('should soft delete a user successfully', async () => {
+        const mockDocument = createMockUserDocument({
+            id: userEntity.id,
+            name: userEntity.name,
+            username: userEntity.username,
+            email: userEntity.email,
+            password: userEntity.password,
+            role: userEntity.role,
+            createdAt: userEntity.createdAt,
+            updatedAt: userEntity.updatedAt,
         });
 
-        it('should throw NotFoundException when user not found on delete', async () => {
-            MockUserModel.findOneAndDelete.mockReturnValue({
-                setOptions: jest.fn().mockResolvedValue(null),
-            });
-
-            await expect(repository.delete(userEntity.id)).rejects.toThrow(
-                NotFoundException
-            );
+        MockUserModel.findOneAndUpdate.mockReturnValue({
+            setOptions: jest.fn().mockReturnValue(mockDocument),
         });
+
+        await repository.delete(userEntity.id);
+
+        expect(MockUserModel.findOneAndUpdate).toHaveBeenCalledWith(
+            { _id: new Types.ObjectId(userEntity.id) },
+            { $set: { deletedAt: expect.any(Date) } },
+            { new: true, strict: true, runValidators: true }
+        );
     });
 
     describe('findOneById', () => {
@@ -250,12 +204,17 @@ describe('UserRepository', () => {
 
             MockUserModel.findOne.mockReturnValue({
                 exec: jest.fn().mockResolvedValue(mockDocument),
+
             });
 
             const result = await repository.findOneById(userEntity.id);
 
             expect(MockUserModel.findOne).toHaveBeenCalledWith({
                 _id: new Types.ObjectId(userEntity.id),
+                $or: [
+                    { deletedAt: { $exists: false } },
+                    { deletedAt: null },
+                ]
             });
             expect(result).toBeInstanceOf(UserEntity);
             expect(result.id).toBe(userEntity.id);

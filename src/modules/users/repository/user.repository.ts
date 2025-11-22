@@ -34,7 +34,6 @@ export class UserRepository implements UserRepositoryInterface {
         $or: [
           { deletedAt: { $exists: false } },
           { deletedAt: null },
-          { deletedAt: '' },
         ],
       })
       .setOptions?.({ autopopulate: false })
@@ -81,7 +80,7 @@ export class UserRepository implements UserRepositoryInterface {
     const deleted = await this.userModel
       .findOneAndUpdate(
         { _id: objId },
-        { $set: { deletedAt: new Date().toISOString() } },
+        { $set: { deletedAt: new Date() } },
         {
           new: true,
           strict: true,
@@ -109,7 +108,6 @@ export class UserRepository implements UserRepositoryInterface {
       _id: new Types.ObjectId(id), $or: [
         { deletedAt: { $exists: false } },
         { deletedAt: null },
-        { deletedAt: '' },
       ]
     }).exec();
     if (!user) return null;
@@ -169,7 +167,6 @@ export class UserRepository implements UserRepositoryInterface {
     $or.push(
       { deletedAt: { $exists: false } },
       { deletedAt: null },
-      { deletedAt: '' }
     );
 
     if ($or.length > 0) {
@@ -210,6 +207,7 @@ export class UserRepository implements UserRepositoryInterface {
         role: userModel.role,
         createdAt: userModel.createdAt,
         updatedAt: userModel.updatedAt,
+        deletedAt: userModel.deletedAt
       }
     );
 
