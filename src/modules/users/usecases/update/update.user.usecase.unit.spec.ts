@@ -1,6 +1,6 @@
+import { ROLES } from '@/@shared/constants/user.roles';
+import { HashService } from '@/@shared/services/hash.service';
 import { UserRepositoryInterface } from '@/modules/users/repository/user.repository.interface';
-import { ROLES } from '@/shared/constants/user.roles';
-import { HashService } from '@/shared/services/hash.service';
 import { BadRequestException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { UpdateUserUseCase } from './update.user.usecase';

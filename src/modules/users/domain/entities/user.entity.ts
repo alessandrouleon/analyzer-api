@@ -1,9 +1,9 @@
 
+import { ROLES } from "@/@shared/constants/user.roles";
+import Entity from "@/@shared/domain/entity/entity.abstract";
+import { DomainError } from "@/@shared/domain/error/domain.error";
+import ValidatorInterface from "@/@shared/domain/validator/validator.interface";
 import { UserValidatorFactory } from "@/modules/users/factory/user.validator.factory";
-import { ROLES } from "@/shared/constants/user.roles";
-import Entity from "@/shared/domain/entity/entity.abstract";
-import { DomainError } from "@/shared/domain/error/domain.error";
-import ValidatorInterface from "@/shared/domain/validator/validator.interface";
 
 
 

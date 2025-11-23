@@ -1,5 +1,5 @@
-import { ROLES } from "@/shared/constants/user.roles";
-import { DomainError } from "@/shared/domain/error/domain.error";
+import { ROLES } from "@/@shared/constants/user.roles";
+import { DomainError } from "@/@shared/domain/error/domain.error";
 import { UserEntity, UserIterfaces } from "./user.entity";
 
 

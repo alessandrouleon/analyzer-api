@@ -1,6 +1,6 @@
+import { FindFilterInterface } from '@/@shared/repository/repository.interface';
 import { UserRepositoryInterface } from '@/modules/users/repository/user.repository.interface';
 import { FindAllUserUseCase } from '@/modules/users/usecases/findAll/find-all.user.usecase';
-import { FindFilterInterface } from '@/shared/repository/repository.interface';
 
 describe('FindAllUserUseCase', () => {
     let useCase: FindAllUserUseCase;

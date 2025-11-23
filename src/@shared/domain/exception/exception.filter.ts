@@ -1,4 +1,4 @@
-import { DomainError } from '@/shared/domain/error/domain.error';
+import { DomainError } from '@/@shared/domain/error/domain.error';
 import { ArgumentsHost, Catch, ExceptionFilter, HttpStatus } from '@nestjs/common';
 import { Response } from 'express';
 

@@ -1,4 +1,4 @@
-import ValidatorInterface from '@/shared/domain/validator/validator.interface';
+import ValidatorInterface from '@/@shared/domain/validator/validator.interface';
 
 export default abstract class Entity<T> {
   private self: any;

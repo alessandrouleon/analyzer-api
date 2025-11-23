@@ -1,4 +1,4 @@
-import { ROLES } from "@/shared/constants/user.roles";
+import { ROLES } from "@/@shared/constants/user.roles";
 
 export class InputUpdateUserUseCaseDto {
     id: string;

@@ -1,6 +1,6 @@
+import { HashService } from "@/@shared/services/hash.service";
 import { UserEntity } from "@/modules/users/domain/entities/user.entity";
 import { UserRepositoryInterface } from "@/modules/users/repository/user.repository.interface";
-import { HashService } from "@/shared/services/hash.service";
 import { BadRequestException, Inject, Injectable, Logger } from "@nestjs/common";
 import { InputUpdateUserUseCaseDto, OutputUpdateUserUseCaseDto } from "./update.user.usecase.dto";
 

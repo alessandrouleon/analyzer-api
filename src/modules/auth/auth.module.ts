@@ -1,5 +1,5 @@
+import { jwtConstants } from '@/@shared/constants/auth-user.secret';
 import { UserModule } from '@/modules/users/user.module';
-import { jwtConstants } from '@/shared/constants/auth-user.secret';
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthController } from './controllers/auth.controller';

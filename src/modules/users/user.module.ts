@@ -1,5 +1,5 @@
-import { HashService } from "@/shared/services/hash.service";
-import { IdService } from "@/shared/services/id.service";
+import { HashService } from "@/@shared/services/hash.service";
+import { IdService } from "@/@shared/services/id.service";
 import { Module } from "@nestjs/common";
 import { APP_GUARD } from "@nestjs/core";
 import { MongooseModule } from "@nestjs/mongoose";

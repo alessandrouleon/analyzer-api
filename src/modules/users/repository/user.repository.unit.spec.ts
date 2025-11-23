@@ -1,6 +1,6 @@
+import { ROLES } from '@/@shared/constants/user.roles';
 import { UserEntity } from '@/modules/users/domain/entities/user.entity';
 import { UserRepository } from '@/modules/users/repository/user.repository';
-import { ROLES } from '@/shared/constants/user.roles';
 import { Logger } from '@nestjs/common';
 import { Model, Types } from 'mongoose';
 

@@ -1,5 +1,5 @@
+import { jwtConstants } from '@/@shared/constants/auth-user.secret';
 import { IS_PUBLIC_KEY } from '@/modules/auth/public';
-import { jwtConstants } from '@/shared/constants/auth-user.secret';
 import {
   CanActivate,
   ExecutionContext,

@@ -1,6 +1,6 @@
+import { FindFilterInterface } from "@/@shared/repository/repository.interface";
 import { UserRepositoryInterface } from "@/modules/users/repository/user.repository.interface";
 import { OutputFindUsersUseCaseDto } from "@/modules/users/usecases/findAll/find-all.user.usecase.dto";
-import { FindFilterInterface } from "@/shared/repository/repository.interface";
 import { Inject, Injectable } from "@nestjs/common";
 
 

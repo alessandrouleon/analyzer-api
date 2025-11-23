@@ -1,3 +1,4 @@
+import { FindFilterInterface } from "@/@shared/repository/repository.interface";
 import { UserIterfaces } from "@/modules/users/domain/entities/user.entity";
 import { CreateUserUseCase } from "@/modules/users/usecases/create/create.user.usecase";
 import { InputCreateUserUseCaseDto, OutputCreateUserUseCaseDto } from "@/modules/users/usecases/create/create.user.usecase.dto";
@@ -7,7 +8,6 @@ import { FindByIdUserUseCase } from "@/modules/users/usecases/findById/findById.
 import { OutputFindByIdUserUseCaseDto } from "@/modules/users/usecases/findById/findById.user.usecase.dto";
 import { UpdateUserUseCase } from "@/modules/users/usecases/update/update.user.usecase";
 import { InputUpdateUserUseCaseDto, OutputUpdateUserUseCaseDto } from "@/modules/users/usecases/update/update.user.usecase.dto";
-import { FindFilterInterface } from "@/shared/repository/repository.interface";
 import { Injectable } from "@nestjs/common";
 
 @Injectable()
