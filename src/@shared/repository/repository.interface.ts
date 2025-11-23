@@ -1,3 +1,5 @@
+import AggregateRoot from "../domain/entity/aggregate-root.interface";
+
 export interface FindFilterInterface<TFilter = any> {
   filter?: TFilter;
   search?: string;
@@ -20,7 +22,7 @@ export interface PaginationResultInterface<T> {
   result: T[];
 }
 
-export default interface RepositoryInterface<T> {
+export default interface RepositoryInterface<T extends AggregateRoot> {
   create(entity: T): Promise<T>;
   update(entity: T): Promise<T>;
   delete(id: string): Promise<T>;

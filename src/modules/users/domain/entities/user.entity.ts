@@ -1,8 +1,8 @@
 
 import { ROLES } from "@/@shared/constants/user.roles";
+import AggregateRoot from "@/@shared/domain/entity/aggregate-root.interface";
 import Entity from "@/@shared/domain/entity/entity.abstract";
 import { DomainError } from "@/@shared/domain/error/domain.error";
-import ValidatorInterface from "@/@shared/domain/validator/validator.interface";
 import { UserValidatorFactory } from "@/modules/users/factory/user.validator.factory";
 
 
@@ -30,14 +30,13 @@ export type UserToJSON = {
   updatedAt: Date;
   deletedAt: Date;
 }
-export class UserEntity extends Entity<UserEntity> {
+export class UserEntity extends Entity<UserEntity> implements AggregateRoot {
   private _name: string;
   private _username: string;
   private _email: string;
   private _password: string;
   private _role: ROLES;
 
-  validator: ValidatorInterface<UserEntity>;
 
   constructor(
     private readonly props: UserIterfaces
@@ -50,7 +49,6 @@ export class UserEntity extends Entity<UserEntity> {
     this._password = props.password;
     this._role = props.role;
 
-    this.validator = UserValidatorFactory.create();
     this.validate();
   }
 
