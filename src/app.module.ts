@@ -5,6 +5,7 @@ import { envConfig } from './infra/configs/env.config';
 import { MongodbOptions } from './infra/database/mongo/mongodb.config';
 
 import { AuthModule } from './modules/auth/auth.module';
+import { ServiceOrderModule } from './modules/serviceOrder/service.order.module';
 import { UserModule } from './modules/users/user.module';
 
 @Module({
@@ -22,6 +23,7 @@ import { UserModule } from './modules/users/user.module';
       inject: [ConfigService],
     }),
     UserModule,
+    ServiceOrderModule,
     AuthModule
   ],
 })
