@@ -18,8 +18,17 @@ async function bootstrap() {
     }),
   );
 
+  app.enableCors({
+    allowedHeaders: '*',
+    origin: '*',
+  });
+
+
   app.useGlobalFilters(new DomainExceptionFilter());
 
-  await app.listen(process.env.PORT ?? 4050);
+  const port = process.env.BACKEND_PORT;
+
+  await app.listen(port);
+  console.log(`🚀 Server running on port ${port}`);
 }
 bootstrap();

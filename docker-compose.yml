@@ -1,0 +1,41 @@
+services:
+  mongodb:
+    image: mongo:6.0.4
+    container_name: mongodb
+    restart: always
+    environment:
+      MONGO_INITDB_DATABASE: service-order
+    volumes:
+      - mongodb_local:/data/db
+      - ./mongodb_backup:/backup
+    ports:
+      - "27017:27017"
+    networks:
+      - ul-net
+
+  so-api:
+    build:
+      context: ./so-api
+      dockerfile: Dockerfile
+    image:  so-api
+    container_name:  so-api
+    restart: always
+    ports:
+      - "4000:4000"
+    env_file:
+      - "./so-api/.env"
+    environment:
+      - MONGO_URL=mongodb://mongodb:27017/service-order
+      - MIGRATION_DIR=./dist/migrations
+    depends_on:
+      - mongodb
+    networks:
+      - ul-net
+
+volumes:
+  mongodb_local:
+
+networks:
+  ul-net:
+    driver: bridge
+

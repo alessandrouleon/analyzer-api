@@ -10,7 +10,7 @@ export class AuthController {
   ) { }
   @Public()
   @HttpCode(HttpStatus.OK)
-  @Post('login')
+  @Post('login-user')
   signInUser(@Body() signInDto: Record<string, any>) {
     return this.authUserService.signIn(signInDto.username, signInDto.password);
   }
