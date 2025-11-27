@@ -2,11 +2,7 @@
 
 ## O banco usado e mongoDB
 
-### Antes de rodar o projeto certifiquese que esta no diretorio do arquivo do docker-compose.yml
-#### Exemplo nome da pasta sem espaço: |-- Kodigos 
-####                                        |-- os-api
-####                                        |-- os-frontend
-####                                        |-- docker-compose.yml
+### Execulte  docker-compose.yml 
 #### docker compose up -d --build
 
 ### QUANDO ACESSAR O MongoDB Compass informar o nome do banco "service-order", vefificar se o usuario foi criado.

@@ -15,7 +15,7 @@ services:
 
   so-api:
     build:
-      context: ./so-api
+      context: .
       dockerfile: Dockerfile
     image:  so-api
     container_name:  so-api
@@ -23,7 +23,7 @@ services:
     ports:
       - "4000:4000"
     env_file:
-      - "./so-api/.env"
+      - "./.env"
     environment:
       - MONGO_URL=mongodb://mongodb:27017/service-order
       - MIGRATION_DIR=./dist/migrations
