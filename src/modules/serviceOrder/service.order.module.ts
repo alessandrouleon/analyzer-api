@@ -7,7 +7,6 @@ import { ServiceOrderController } from "./controllers/service.order.controller";
 import { ServiceOrderFacade } from "./facade/service.order.facade";
 import { ServiceOrder, ServiceOrderSchema } from "./model/service.order.model";
 import { ServiceOrderRepository } from "./repository/service.order.repository";
-import { UploadService } from "./services/upload.service";
 import { CreateServiceOrderUseCase } from "./usecases/create/create.service.order.usecase";
 import { DeleteServiceOrderUseCase } from "./usecases/delete/delete.service.order.usecase";
 import { FindAllServiceOrderUseCase } from "./usecases/findAll/find-all.service.order.usecase";
@@ -27,7 +26,6 @@ import { UpdateServiceOrderUseCase } from "./usecases/update/update.service.orde
 
         //Services
         IdService,
-        UploadService,
 
         //Repositories
         {

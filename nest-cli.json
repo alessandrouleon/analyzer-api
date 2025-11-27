@@ -3,6 +3,10 @@
   "collection": "@nestjs/schematics",
   "sourceRoot": "src",
   "compilerOptions": {
+    "assets": [
+      "migrations/**/*"
+    ],
+    "watchAssets": true,
     "deleteOutDir": true
   }
 }
