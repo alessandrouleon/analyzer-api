@@ -2,6 +2,12 @@ import { BaseSchema } from '@/@shared/repository/base-model';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
+export type ImageProps = {
+    contentType: string;
+    data: string;
+    filename: string;
+    uploadedAt: string;
+}
 export type ServiceOrderDocument = ServiceOrder & Document;
 
 @Schema()
@@ -68,7 +74,7 @@ export class ServiceOrder extends BaseSchema {
         type: String,
         required: false,
     })
-    image_url?: any;
+    image_url?: string;
 
 }
 

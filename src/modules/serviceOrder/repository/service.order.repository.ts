@@ -135,10 +135,10 @@ export class ServiceOrderRepository implements ServiceOrderRepositoryInterface {
             $or.push({ name: { $regex: filter.search, $options: 'i' } });
         }
 
-        $or.push(
-            { deletedAt: { $exists: false } },
-            { deletedAt: null },
-        );
+        // $or.push(
+        //     { deletedAt: { $exists: false } },
+        //     { deletedAt: null },
+        // );
 
         if ($or.length > 0) {
             queryBuild['$or'] = $or;

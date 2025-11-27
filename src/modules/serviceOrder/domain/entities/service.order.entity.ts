@@ -38,7 +38,7 @@ export type ServiceOrderToJSON = {
     accessories: string[];
     physical_condition: string[];
     tests_performed: string[];
-    image_url: string;
+    image_url?: string;
     createdAt: Date;
     updatedAt: Date;
     deletedAt: Date;
@@ -239,13 +239,7 @@ export class ServiceOrderEntity extends Entity<ServiceOrderEntity> implements Ag
     }
 
     set image_url(value: string) {
-        if (!value || value.trim().length === 0) {
-            throw new DomainError([
-                { context: 'serviceOrder', message: 'Image url cannot be empty' },
-            ]);
-        }
-
-        this._image_url = value.trim();
+        this._image_url = value;
         this.validate();
     }
 

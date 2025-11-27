@@ -1,3 +1,4 @@
+
 export class OutputFindByIdServiceOrderUseCaseDto {
     id: string;
     description: string;

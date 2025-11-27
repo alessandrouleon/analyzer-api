@@ -1,6 +1,9 @@
-import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Put, Query } from "@nestjs/common";
+import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Put, Query, UploadedFile, UseInterceptors } from "@nestjs/common";
+import { FileInterceptor } from "@nestjs/platform-express";
+import { diskStorage } from "multer";
+import { extname } from "path";
 import { ServiceOrderFacade } from "../facade/service.order.facade";
-import { InputCreateServiceOrderUseCaseDto, OutputCreateServiceOrderUseCaseDto } from "../usecases/create/create.service.order.usecase.dto";
+import { InputCreateServiceOrderUseCaseDto } from "../usecases/create/create.service.order.usecase.dto";
 import { InputFindServiceOrderUseCaseDto } from "../usecases/findAll/find-all.service.order.usecase.dto";
 import { OutputFindByIdServiceOrderUseCaseDto } from "../usecases/findById/findById.service.order.usecase.dto";
 import { InputUpdateServiceOrderUseCaseDto, OutputUpdateServiceOrderUseCaseDto } from "../usecases/update/update.service.order.usecase.dto";
@@ -10,16 +13,36 @@ export class ServiceOrderController {
     constructor(private readonly serviceOrderFacade: ServiceOrderFacade,
     ) { }
 
+    // @Post()
+    // async create(@Body() input: InputCreateServiceOrderUseCaseDto): Promise<OutputCreateServiceOrderUseCaseDto> {
+    //     try {
+    //         return await this.serviceOrderFacade.create(input);
+    //     } catch (e) {
+    //         if (e.name === 'DomainError') {
+    //             throw new BadRequestException(e.errors);
+    //         }
+    //         throw e;
+    //     }
+    // }
     @Post()
-    async create(@Body() input: InputCreateServiceOrderUseCaseDto): Promise<OutputCreateServiceOrderUseCaseDto> {
-        try {
-            return await this.serviceOrderFacade.create(input);
-        } catch (e) {
-            if (e.name === 'DomainError') {
-                throw new BadRequestException(e.errors);
-            }
-            throw e;
+    @UseInterceptors(FileInterceptor('image', {
+        storage: diskStorage({
+            destination: './uploads/service-orders',
+            filename: (req, file, cb) => {
+                const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+                cb(null, uniqueSuffix + extname(file.originalname));
+            },
+        }),
+    }))
+    async create(
+        @UploadedFile() image: Express.Multer.File,
+        @Body() input: InputCreateServiceOrderUseCaseDto
+    ) {
+        if (image) {
+            input.image_url = `/uploads/service-orders/${image.filename}`;
         }
+
+        return await this.serviceOrderFacade.create(input);
     }
 
     @Put(':id')

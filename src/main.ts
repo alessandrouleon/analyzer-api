@@ -1,33 +1,29 @@
-import { DomainExceptionFilter } from '@/@shared/domain/exception/exception.filter';
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import * as dotenv from 'dotenv';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { join } from 'path';
+import { DomainExceptionFilter } from './@shared/domain/exception/exception.filter';
 import { AppModule } from './app.module';
 
-dotenv.config();
-
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
-  app.useGlobalPipes(new ValidationPipe());
+  // Pipes e filtros
+  app.useGlobalPipes(new ValidationPipe({ transform: true, transformOptions: { enableImplicitConversion: true } }));
+  app.useGlobalFilters(new DomainExceptionFilter());
 
-  app.useGlobalPipes(
-    new ValidationPipe({
-      transform: true,
-      transformOptions: { enableImplicitConversion: true },
-    }),
-  );
-
+  // CORS
   app.enableCors({
     allowedHeaders: '*',
     origin: '*',
   });
 
+  // Servir arquivos estáticos
+  app.useStaticAssets(join(__dirname, '..', 'uploads'), {
+    prefix: '/uploads/', // opcional: adiciona /uploads na URL
+  });
 
-  app.useGlobalFilters(new DomainExceptionFilter());
-
-  const port = process.env.BACKEND_PORT;
-
+  const port = process.env.BACKEND_PORT || 4000;
   await app.listen(port);
   console.log(`🚀 Server running on port ${port}`);
 }

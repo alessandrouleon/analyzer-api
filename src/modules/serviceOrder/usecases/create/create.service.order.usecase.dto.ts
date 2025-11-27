@@ -1,3 +1,4 @@
+
 export class InputCreateServiceOrderUseCaseDto {
     id: string;
     description: string;
@@ -11,8 +12,7 @@ export class InputCreateServiceOrderUseCaseDto {
     accessories?: string[];
     physical_condition?: string[];
     tests_performed?: string[];
-    image_url?: any;
-    image_id?: string;
+    image_url?: string;
 }
 
 export class OutputCreateServiceOrderUseCaseDto {
