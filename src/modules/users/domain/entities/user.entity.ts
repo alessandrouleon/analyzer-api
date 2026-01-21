@@ -1,8 +1,8 @@
 
-import { ROLES } from "@/@shared/constants/user.roles";
 import AggregateRoot from "@/@shared/domain/entity/aggregate-root.interface";
 import Entity from "@/@shared/domain/entity/entity.abstract";
 import { DomainError } from "@/@shared/domain/error/domain.error";
+import { ROLES } from "@/modules/auth/enums/roles.enum";
 import { UserValidatorFactory } from "@/modules/users/factory/user.validator.factory";
 
 
@@ -13,7 +13,7 @@ export type UserIterfaces = {
   username: string;
   email: string;
   password?: string;
-  role: ROLES;
+  roles: ROLES[];
   createdAt?: Date;
   updatedAt?: Date;
   deletedAt?: Date;
@@ -24,7 +24,7 @@ export type UserToJSON = {
   name: string;
   username: string;
   email: string;
-  role: ROLES;
+  roles: ROLES[];
   password?: string;
   createdAt: Date;
   updatedAt: Date;
@@ -35,7 +35,7 @@ export class UserEntity extends Entity<UserEntity> implements AggregateRoot {
   private _username: string;
   private _email: string;
   private _password: string;
-  private _role: ROLES;
+  private _roles: ROLES[];
 
 
   constructor(
@@ -47,7 +47,7 @@ export class UserEntity extends Entity<UserEntity> implements AggregateRoot {
     this._username = props.username;
     this._email = props.email;
     this._password = props.password;
-    this._role = props.role;
+    this._roles = props.roles
 
     this.validate();
   }
@@ -64,8 +64,8 @@ export class UserEntity extends Entity<UserEntity> implements AggregateRoot {
   get password() {
     return this._password;
   }
-  get role() {
-    return this._role;
+  get roles() {
+    return this._roles;
   }
 
   set name(value: string) {
@@ -105,19 +105,19 @@ export class UserEntity extends Entity<UserEntity> implements AggregateRoot {
     this._password = value.trim();
     this.validate();
   }
-  set role(value: ROLES) {
-    if (!value || value.trim().length === 0) {
+  set roles(value: ROLES[]) {
+    if (!value || value.length === 0) {
       throw new DomainError([
-        { context: 'user', message: 'Role cannot be empty' },
+        { context: 'user', message: 'Roles cannot be empty' },
       ]);
     }
-    const trimmed = value.trim().toUpperCase();
+    const trimmed = value.map(role => role.trim().toUpperCase());
 
-    if (!Object.values(ROLES).includes(trimmed as ROLES)) {
+    if (!trimmed.every(role => Object.values(ROLES).includes(role as ROLES))) {
       throw new DomainError([{ context: 'user', message: `Invalid role: ${value}` }]);
     }
 
-    this._role = trimmed as ROLES;
+    this._roles = trimmed as ROLES[];
     this.validate();
   }
 
@@ -127,7 +127,7 @@ export class UserEntity extends Entity<UserEntity> implements AggregateRoot {
       name: this.name,
       username: this.username,
       email: this.email,
-      role: this.role,
+      roles: this.roles,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
       deletedAt: this.deletedAt

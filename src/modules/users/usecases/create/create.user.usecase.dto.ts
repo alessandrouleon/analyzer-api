@@ -1,4 +1,4 @@
-import { ROLES } from "@/@shared/constants/user.roles";
+import { ROLES } from "@/modules/auth/enums/roles.enum";
 
 export class InputCreateUserUseCaseDto {
     id: string;
@@ -6,7 +6,7 @@ export class InputCreateUserUseCaseDto {
     username: string;
     email: string;
     password: string;
-    role: ROLES;
+    roles: ROLES[];
 }
 
 export class OutputCreateUserUseCaseDto {
@@ -14,7 +14,7 @@ export class OutputCreateUserUseCaseDto {
     name: string;
     username: string;
     email: string;
-    role: string;
+    roles: ROLES[];
     createdAt: Date;
     updatedAt: Date;
 }

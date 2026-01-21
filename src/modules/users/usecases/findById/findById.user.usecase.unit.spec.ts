@@ -1,4 +1,4 @@
-import { ROLES } from '@/@shared/constants/user.roles';
+import { ROLES } from '@/modules/auth/constants/user.roles';
 import { UserEntity } from '@/modules/users/domain/entities/user.entity';
 import { UserRepositoryInterface } from '@/modules/users/repository/user.repository.interface';
 import { BadRequestException, Logger } from '@nestjs/common';

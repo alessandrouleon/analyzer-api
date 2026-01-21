@@ -1,6 +1,6 @@
-import { ROLES } from "@/@shared/constants/user.roles";
 import { DomainError, DomainErrorProps } from "@/@shared/domain/error/domain.error";
 import ValidatorInterface from "@/@shared/domain/validator/validator.interface";
+import { ROLES } from "@/modules/auth/enums/roles.enum";
 import { UserEntity } from "@/modules/users/domain/entities/user.entity";
 import { PASSWORD_INVALID_MESSAGE, PASSWORD_REGEX } from "@/modules/users/domain/value-objects/password.vo";
 import Joi from "joi";
@@ -17,7 +17,7 @@ export class UserValidator implements ValidatorInterface<UserEntity> {
       username: entity.username,
       email: entity.email,
       password: entity.password,
-      role: entity.role,
+      roles: entity.roles,
       createdAt: entity.createdAt,
       updatedAt: entity.updatedAt,
     };
@@ -84,10 +84,9 @@ export class UserValidator implements ValidatorInterface<UserEntity> {
           'string.pattern.base': PASSWORD_INVALID_MESSAGE,
         }),
 
-      role: Joi.string().valid(ROLES.ADMIN, ROLES.USER).required().messages({
-        'any.required': 'Role is required',
-        'string.empty': 'Role cannot be empty',
-        'any.only': 'Role must be ADMIN or USER',
+      roles: Joi.array().items(Joi.string().valid(ROLES.ADMIN, ROLES.USER, ROLES.GUEST, ROLES.MANAGER)).required().messages({
+        'any.required': 'Roles are required',
+        'array.includes': 'Roles must be ADMIN, USER, GUEST or MANAGER',
       }),
 
       createdAt: Joi.date().required().messages({

@@ -40,7 +40,7 @@ export class UpdateUserUseCase {
             username: input.username,
             email: input.email,
             password: input.password,
-            role: input.role
+            roles: input.roles
         });
 
         user.password = await this.hashService.hash(user.password);

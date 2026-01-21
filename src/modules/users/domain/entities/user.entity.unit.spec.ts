@@ -1,5 +1,5 @@
-import { ROLES } from "@/@shared/constants/user.roles";
 import { DomainError } from "@/@shared/domain/error/domain.error";
+import { ROLES } from "@/modules/auth/enums/roles.enum";
 import { UserEntity, UserIterfaces } from "./user.entity";
 
 
@@ -10,7 +10,7 @@ describe("UserEntity", () => {
     username: "joaoname",
     email: "joao@example.com",
     password: "Admin@123",
-    role: ROLES.ADMIN,
+    roles: [ROLES.ADMIN],
   };
 
 
@@ -23,7 +23,7 @@ describe("UserEntity", () => {
     expect(user.username).toBe(validProps.username);
     expect(user.email).toBe(validProps.email);
     expect(user.password).toBe(validProps.password);
-    expect(user.role).toBe(validProps.role);
+    expect(user.roles).toBe(validProps.roles);
     expect(user.createdAt).toBeInstanceOf(Date);
     expect(user.updatedAt).toBeInstanceOf(Date);
   });
@@ -58,12 +58,12 @@ describe("UserEntity", () => {
     user.username = "janedoe";
     user.email = "jane@example.com";
     user.password = "Admin@123";
-    user.role = ROLES.USER;
+    user.roles = [ROLES.USER];
 
     expect(user.username).toBe("janedoe");
     expect(user.email).toBe("jane@example.com");
     expect(user.password).toBe("Admin@123");
-    expect(user.role).toBe(ROLES.USER);
+    expect(user.roles).toBe(ROLES.USER);
   });
 
   /**
@@ -76,8 +76,8 @@ describe("UserEntity", () => {
     expect(() => (user.username = "")).toThrow(DomainError);
     expect(() => (user.email = "")).toThrow(DomainError);
     expect(() => (user.password = "")).toThrow(DomainError);
-    expect(() => (user.role = ROLES.ADMIN)).not.toThrow();
-    expect(() => (user.role = ROLES.USER)).not.toThrow();
+    expect(() => (user.roles = [ROLES.ADMIN])).not.toThrow();
+    expect(() => (user.roles = [ROLES.USER])).not.toThrow();
   });
 
   /**
@@ -93,7 +93,7 @@ describe("UserEntity", () => {
       name: validProps.name,
       username: validProps.username,
       email: validProps.email,
-      role: validProps.role,
+      role: validProps.roles,
       createdAt: expect.any(Date),
       updatedAt: expect.any(Date),
     });

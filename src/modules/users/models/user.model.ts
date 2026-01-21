@@ -1,5 +1,5 @@
-import { ROLES } from '@/@shared/constants/user.roles';
 import { BaseSchema } from '@/@shared/repository/base-model';
+import { ROLES } from '@/modules/auth/enums/roles.enum';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
@@ -23,8 +23,12 @@ export class User extends BaseSchema {
   @Prop({ type: String, required: false, trim: true })
   password: string;
 
-  @Prop({ type: String, required: false, trim: true, enum: Object.values(ROLES) })
-  role: ROLES;
+  @Prop({
+    type: [String],
+    enum: Object.values(ROLES),
+    default: [ROLES.USER]
+  })
+  roles?: ROLES[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

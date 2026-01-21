@@ -1,5 +1,5 @@
-import { ROLES } from '@/@shared/constants/user.roles';
 import { HashService } from '@/@shared/services/hash.service';
+import { ROLES } from '@/modules/auth/constants/user.roles';
 import { UserRepositoryInterface } from '@/modules/users/repository/user.repository.interface';
 import { BadRequestException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';

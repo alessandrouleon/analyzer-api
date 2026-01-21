@@ -204,7 +204,7 @@ export class UserRepository implements UserRepositoryInterface {
         username: userModel.username,
         email: userModel.email,
         password: userModel.password,
-        role: userModel.role,
+        roles: userModel.roles,
         createdAt: userModel.createdAt,
         updatedAt: userModel.updatedAt,
         deletedAt: userModel.deletedAt
@@ -221,7 +221,7 @@ export class UserRepository implements UserRepositoryInterface {
       username: entity.username,
       email: entity.email,
       password: entity.password,
-      role: entity.role,
+      role: entity.roles,
       createdAt: entity.createdAt,
       updatedAt: entity.updatedAt
     });

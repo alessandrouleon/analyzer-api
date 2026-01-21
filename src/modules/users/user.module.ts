@@ -4,6 +4,7 @@ import { Module } from "@nestjs/common";
 import { APP_GUARD } from "@nestjs/core";
 import { MongooseModule } from "@nestjs/mongoose";
 import { AuthGuard } from "../auth/guard/auth.guard";
+import { RolesGuard } from "../auth/guard/roles.guard";
 import { UserController } from "./controllers/user.controller";
 import { UserFacade } from "./facade/user.facade";
 import { User, UserSchema } from "./models/user.model";
@@ -22,6 +23,10 @@ import { UpdateUserUseCase } from "./usecases/update/update.user.usecase";
         {
             provide: APP_GUARD,
             useClass: AuthGuard,
+        },
+        {
+            provide: APP_GUARD,
+            useClass: RolesGuard,
         },
         //Facade
         UserFacade,

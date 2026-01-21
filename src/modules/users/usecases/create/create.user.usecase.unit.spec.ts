@@ -1,6 +1,6 @@
-import { ROLES } from '@/@shared/constants/user.roles';
 import { HashService } from '@/@shared/services/hash.service';
 import { IdService } from '@/@shared/services/id.service';
+import { ROLES } from '@/modules/auth/constants/user.roles';
 import { UserEntity } from '@/modules/users/domain/entities/user.entity';
 import { UserRepositoryInterface } from '@/modules/users/repository/user.repository.interface';
 import { CreateUserUseCase } from '@/modules/users/usecases/create/create.user.usecase';

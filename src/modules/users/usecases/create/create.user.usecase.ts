@@ -4,6 +4,7 @@ import { UserEntity } from "@/modules/users/domain/entities/user.entity";
 import { UserRepositoryInterface } from "@/modules/users/repository/user.repository.interface";
 import { InputCreateUserUseCaseDto, OutputCreateUserUseCaseDto } from "@/modules/users/usecases/create/create.user.usecase.dto";
 import { BadRequestException, Inject, Injectable, Logger } from "@nestjs/common";
+import { log } from "console";
 
 
 @Injectable()
@@ -41,12 +42,12 @@ export class CreateUserUseCase {
          username: input.username,
          email: input.email,
          password: input.password,
-         role: input.role
+         roles: input.roles
       });
 
       user.password = await this.hashService.hash(user.password);
       const userCreated = await this.userRepository.create(user);
-
+      log(userCreated);
       Logger.log(
          `User created. [ID: ${user.id}][name: ${user.name}]`,
          'CreateUserUseCase.execute',

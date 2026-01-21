@@ -1,5 +1,5 @@
-import { ROLES } from '@/@shared/constants/user.roles';
 import { PaginationInterface } from '@/@shared/repository/repository.interface';
+import { ROLES } from '@/modules/auth/enums/roles.enum';
 import { UserIterfaces } from '@/modules/users/domain/entities/user.entity';
 
 export class InputFindUserUseCaseDto {

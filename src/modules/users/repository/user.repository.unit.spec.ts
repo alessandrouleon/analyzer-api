@@ -1,4 +1,4 @@
-import { ROLES } from '@/@shared/constants/user.roles';
+import { ROLES } from '@/modules/auth/constants/user.roles';
 import { UserEntity } from '@/modules/users/domain/entities/user.entity';
 import { UserRepository } from '@/modules/users/repository/user.repository';
 import { Logger } from '@nestjs/common';
